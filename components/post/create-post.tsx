@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import Image from "next/image";
 import { useAction } from "next-safe-action/hooks";
@@ -8,127 +8,136 @@ import { MdPictureInPicture } from "react-icons/md";
 import { UploadButton } from "@/utils/uploadthing";
 import { createPost } from "@/action/post-action";
 
-export const CreatePost = ({ validNotes }: any) => {
+export const CreatePost = ({ userImage }: { userImage: string }) => {
   const [expand, setExpand] = useState(false);
   const [addImage, setAddImage] = useState(false);
-  const [imageUrl, setImageurl] = useState<string | null>(null)
-  const { execute, result} = useAction(createPost
-    , {
-      onSuccess: () => {
-        console.log("success");
-      },
-      onError: (error) => {
-        console.log(error,"error");
-      },
-    });
- 
+  const [imageUrl, setImageurl] = useState<string | null>(null);
+  const [content, setContent] = useState<string>("");
+
+  const { execute, result } = useAction(createPost, {
+    onSuccess: () => {
+      console.log("success");
+    },
+    onError: (error) => {
+      console.log(error, "error");
+    },
+  });
+
   console.log(result);
 
- 
-  const addEvent = (e:any) => {
+  const addEvent = (e: any) => {
     e.preventDefault();
-   
+
     setExpand(false);
-
-   setAddImage(false);
-
-  setImageurl(null)
-  
-
+    setAddImage(false);
+    setImageurl(null);
+    setContent(""); 
   };
+
   const handleImage = () => {
     setAddImage(true);
-  }
+  };
 
   return (
-    
-    <div className="mx-auto my-6 min-h-36 w-[28rem] rounded-md border border-gray-500 shadow-md shadow-gray-900">
-      <form onSubmit={(e) => {e.preventDefault()
-        const formData = new FormData(e.currentTarget);
-        const content = formData.get("content") as string || null;
-        const imageurl = formData.get("imageurl")  as string || null ;
-        execute( {
-          content : content ?? undefined,
-          imageurl: imageurl ?? undefined,
+    <div className={`mx-auto min-h-36 ${expand ? "w-[20rem]" : "w-[27rem]"} rounded-md border border-gray-300 shadow-md shadow-gray-100 transition-all duration-300`}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          const formData = new FormData(e.currentTarget);
+          const content = (formData.get("content") as string) || null;
+          const imageurl = (formData.get("imageurl") as string) || null;
+          execute({
+            content: content ?? undefined,
+            imageurl: imageurl ?? undefined,
+          });
+        }}
+      >
+        <div className="relative p-4">
+          <Image
+            src={userImage}
+            alt="User"
+            width={40}
+            height={40}
+            className="absolute left-0 top-0 ml-3 mt-7 rounded-full"
+          />
+          <div className="ml-14">
+            <Textarea
+              name="content"
+              placeholder="What are you thinking?"
+              onClick={() => {
+                setExpand(true);
+              }}
+              cols={50}
+              rows={4}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              className="mt-14 w-full resize-none border bg-transparent text-base font-medium outline-none transition hover:border-none dark:text-gray-900"
+              style={
+                expand
+                  ? { height: "5rem", marginTop: "0.75rem",  }
+                  : { height: "1.5rem", marginTop: 0 }
+              }
+            />
           
-        })
-        
-      }}>
-        <Textarea
-          name="content"
-          placeholder="What's on your mind?"
-          onClick={() => {
-            setExpand(true);
-          }}
-          cols={50}
-  rows={4}
-  className="w-full border-none bg-transparent text-base font-medium outline-none transition hover:border-none dark:text-gray-300"
-  style={
-    expand
-      ? { height: "10rem", marginTop: "0.75rem" }
-      : { height: "1.5rem", marginTop: 0 }
-  }
-          
-              /> 
-              <input  type="hidden" name="imageurl" value={imageUrl ?? ""}/>
-              {expand ? (
-          <div className="w-full items-center justify-between">
-            <div className="flex h-[50px]">
-            <UploadButton
-            
-      appearance={{
-        container: " rounded-md transparent bg-transparent ",
-        button: " rounded-md w-[60px] h-[40px] bg-[#f7f9fc]  onclick:ring-none hover:ring-none flex item-end",
-        allowedContent:"sr-only"
-        
-      }}
-      
-      
-      className="transparent h-[50px]"
-      content={{
-        
-        button:( <div   onClick={handleImage} >
-        <MdPictureInPicture  className="text-2xl text-black"/>
-      </div>)
-      }}
-      
-      endpoint="imageUploader"
-      onClientUploadComplete={(res) => {
-        setImageurl(res?.[0].url);
-        console.log("Files: ", res);
-      }}
-      onUploadError={(error: Error) => {
-        alert(`ERROR! ${error.message}`);
-      }}
-    />
-             <div className="mt-1 flex w-full justify-end">
-            <button
-              onClick={addEvent}
-              className="px-8 font-medium dark:text-gray-300"
-            >
-              Close
-            </button>
-            <button type="submit">Create Post</button>
-            </div> 
-            </div>
-
-            <div className="w-full border border-red-300">
-      {imageUrl ?( <Image 
-       src={imageUrl}
-       alt="image"
-       width={600}
-       height={900}
-       /> ): null }
-       </div>
           </div>
-        ) : null}
-        <div className="flex border border-emerald-300">
-       
-      </div>
-   
+          {imageUrl && (
+              <div className="mt-4 flex w-full">
+                <Image
+                  src={imageUrl}
+                  alt="Uploaded"
+                  width={350}
+                  height={100}
+                  className="rounded-md object-cover"
+                />
+              </div>
+            )}
+          <input type="hidden" name="imageurl" value={imageUrl ?? ""} />
+          {expand && (
+            <div className="mt-4 flex w-full items-center">
+              <div className="flex h-[50px] w-full items-center justify-between">
+                <UploadButton
+                  appearance={{
+                    container: "rounded-md transparent bg-transparent",
+                    button:
+                      "rounded-md w-[60px] h-[40px] bg-[#f7f9fc] onclick:ring-none hover:ring-none flex item-end",
+                    allowedContent: "sr-only",
+                  }}
+                  className="transparent h-[50px]"
+                  content={{
+                    button: (
+                      <div onClick={handleImage}>
+                        <MdPictureInPicture className="text-2xl text-black" />
+                      </div>
+                    ),
+                  }}
+                  endpoint="imageUploader"
+                  onClientUploadComplete={(res) => {
+                    setImageurl(res?.[0].url);
+                    console.log("Files: ", res);
+                  }}
+                  onUploadError={(error: Error) => {
+                    alert(`ERROR! ${error.message}`);
+                  }}
+                />
+                <div className="ml-auto flex items-center">
+                  <button
+                    onClick={addEvent}
+                    className="px-4 font-medium text-gray-600"
+                  >
+                    Close
+                  </button>
+                  <button
+                    type="submit"
+                    className="ml-2 rounded-md bg-blue-500 px-4 py-2 font-medium text-white"
+                  >
+                    Share
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </form>
-      
     </div>
-   
   );
 };

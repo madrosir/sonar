@@ -1,4 +1,3 @@
-import { comment } from "postcss";
 import { z } from "zod";
 
 export const PostSchema = z.object({
@@ -43,15 +42,45 @@ export const updateSchema = z.object({
   export const CreateComment = CommentSchema.omit({ id: true });
   export const UpdateComment = CommentSchema;
   export const deleteComment = CommentSchema.pick({ id: true });
-  export const FollowUser =z.object({id: z.string()})
+  export const FollowUser =z.object({userId: z.string(), role: z.enum(['FRIEND','CLOSE_FRIEND'])})
 
 
-  const story = z.object({
+  export const story = z.object({
     id: z.string(),
-    imageUrl: z.string(),
-    videoUrl: z.string(),
-    
+    url: z.string(),
+    durations: z.number(),
+    type: z.string(),
+
   });
   export const CreateStory = story.omit({ id: true });
 export const UpdateStory = story;
 export const DeleteStory = story.pick({ id: true });
+
+export const ChatSchema = z.object({
+  id: z.string(),
+  conversationId : z.string(),
+  userIds: z.array(z.string()),
+ 
+ 
+});
+
+export const CreateChat = z.object({
+  userId: (z.string())
+});
+export const UpdateChat = ChatSchema
+export const DeleteChat = ChatSchema.pick({ id: true });
+export const createMessage = z.object({
+  content: z.string(),
+  conversationId: z.string(),
+  senderId: z.string(),
+  messageId:z.string(),
+});
+export const UpdateSeenMessage = z.object({
+  messageId: z.string(), 
+  
+  recipientId: z.string() })
+
+  export const seen = z.object({
+    userid : z.string(),
+    messageId: z.string(),})
+

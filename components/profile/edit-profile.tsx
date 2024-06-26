@@ -60,7 +60,7 @@ export const EditProfile = ({ validNotes }: any) => {
       bio: values.bio
        , email: values.email,
         imageUrl:imageUrl });
-    console.log(validNotes.imageUrl);
+   
   };
 
   return (

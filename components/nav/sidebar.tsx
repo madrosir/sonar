@@ -24,7 +24,7 @@ export const sidebarLinks: SidebarLink[] = [
       icon: <AiOutlineHome className="h-[40px] w-[40px] fill-[#5e6375] text-3xl"/>,
       fillIcon: <AiFillHome className="h-[40px] w-[40px] fill-[#fff] text-3xl text-black"/>
     },
-    route: "/2",
+    route: "/",
     label:"home",
   },
   {
@@ -32,7 +32,7 @@ export const sidebarLinks: SidebarLink[] = [
       icon: <AiOutlineMessage className="h-[40px] w-[40px] fill-[#5e6375] text-3xl"/>,
       fillIcon: <AiFillMessage   className="h-[40px] w-[40px] fill-[#fff] text-3xl text-black"/>
     },
-    route: "/",
+    route: "/chat",
     label:"message"
   },
   {
@@ -48,7 +48,7 @@ export const sidebarLinks: SidebarLink[] = [
       icon: <FaRegBookmark      className="h-[40px] w-[40px] fill-[#5e6375] text-3xl"/>,
       fillIcon: <FaBookmark    className="h-[40px] w-[40px] fill-[#fff] text-3xl text-black"/>
     },
-    route: "/",
+    route: "/bookmark",
     label:"bookmark"
   },
   {
@@ -69,7 +69,7 @@ function SideNavItem({
   }: SidebarLink ) {
     
     const pathname = usePathname();
-    const isActivePage = pathname == route;
+    const isActivePage = route === "/" ? pathname === route : pathname.startsWith(route);    
     return (
       <Link
         
@@ -92,7 +92,7 @@ const SideBar=()=>{
     
     return(
         <div className={
-          "min-h-screen max-h-screen overflow-y-auto w-fit md:pr-8 pr-3 pt-2 flex flex-col gap-3  pl-[50px]"
+          "min-h-screen max-h-screen overflow-y-auto  md:pr-8 pr-3 pt-2 flex flex-col gap-3  pl-[50px] border-r-2"
           
         } >
             <h1> <header>

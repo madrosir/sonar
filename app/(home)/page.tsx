@@ -1,28 +1,38 @@
+import { deleteOldPosts } from "@/action/story-action";
 import { CreatePost } from "@/components/post/create-post";
 import Posts from "@/components/post/post";
+import Story from "@/components/story/story";
 import { PostWithExtras } from "@/lib/definitions";
-
 import { fetchUser, initializer } from "@/lib/user";
+const cron = require('node-cron');
 
+export default async function Home({ post }: { post: PostWithExtras }) {
+  await initializer();
 
-export default async function Home({post} :{post:PostWithExtras}) {
-await initializer()
-const user = await fetchUser()
+  const user = await fetchUser();
+
+  cron.schedule('0 0 * * *', deleteOldPosts, {
+    scheduled: true,
+    timezone: "UTC"
+  });
 
   return (
-    <main className="flex min-h-screen justify-between">
-      hello world
-      <div className="w-full border border-red-700">
-      <Posts post={post} />
-      </div>
-      <div className="w-[400px] bg-[#f7f9fc]">
-      <CreatePost  validNotes={user} /> 
-      
+    <main className="flex min-h-screen w-full">
+      <div className="w-full">
+        <div className="flex flex-col justify-center space-y-4">
+          <div className="p-4">
+            <Story user={user} />
+          </div>
+          <div>
+            <CreatePost userImage={user!.imageUrl!} />
+          </div>
+          <div className="flex flex-col items-center justify-center">
+            <Posts post={post} />
+          </div>
         </div>
-       
-      <div className="rounded-l-5xl flex w-[400px] bg-[#E4E9F2]">
-      
       </div>
+
+    
     </main>
   );
 }

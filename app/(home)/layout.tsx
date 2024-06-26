@@ -2,18 +2,20 @@ import SideBar from "@/components/nav/sidebar";
 import { Toaster } from "sonner";
 
 const HomeLayout = ({ children }: { children: React.ReactNode }) => {
-
     return (
         <main>
-            <div className="flex bg-[#202631]">
-            <div className="shadow-4xl sticky top-0 min-h-screen w-[200px]">
-            <SideBar />
-            </div >
-            <div className="w-full bg-[#F7F9FC]">
-                {children}
+            <div className="flex bg-[#F7F9FC]">
+                <div className="shadow-4xl fixed left-0 top-0 min-h-screen w-[300px] bg-gray-800 text-white">
+                    <SideBar />
                 </div>
+                <div className="ml-[300px] mr-[500px] w-full bg-[#F7F9FC]">
+                    {children}
                 </div>
-                <Toaster />
+                <div className="rounded-l-5xl fixed right-0 top-0 h-full w-[500px] bg-[#E4E9F2]">
+                   
+                </div>
+            </div>
+            <Toaster />
         </main>
     );
 }

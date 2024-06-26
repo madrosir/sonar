@@ -8,7 +8,7 @@ import UserAvatar from "../UserAvatar";
 
 function MiniPost({ post }: { post: PostWithExtras }) {
   const username = post.user.username;
-  const href = `/dashboard/${username}`;
+  const href = `/dashboard/profile/${username}`;
   
  const user = post.user;
 

@@ -20,9 +20,7 @@ async function Posts( {post } :{post:PostWithExtras}) {
         <PostCard key={post.id}  post={post} userId={userId}/>
         
       ))}
-      <div>
       
-      </div>
     </>
   );
 }

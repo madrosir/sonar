@@ -71,7 +71,7 @@ function Comments({
             key={id}
             className="flex items-center space-x-2 text-sm font-medium"
           >
-            <Link href={`/${username}`} className="font-semibold">
+            <Link href={`/profile/${username}`} className="font-semibold">
               {username}
             </Link>
             <div className='flex w-full justify-between' >

@@ -91,3 +91,136 @@ body,
   border-radius: 2.2rem;
   
 }
+const image {
+  display: "block",
+  maxWidth "100%",
+  borderRadius 4
+};
+
+const contentStylestoryback  {
+  background: "black",
+  width "100%",
+  padding 20,
+  color "white"
+};
+
+const code  {
+  background: "#eee",
+  padding "5px 10px",
+  borderRadius "4px",
+  color "#333"
+};
+
+const contentStyle  {
+  background: "salmon",
+  width "100%",
+  padding 20,
+  color "white"
+};
+
+const customSeeMore  {
+  text-align: "center",
+  fontSize 14,
+  bottom 20,
+  position "relative"
+};
+.flex-grow {
+  flex-grow: 1;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.bg-gray-800 {
+  background-color: #2d3748;
+}
+
+.bg-gray-900 {
+  background-color: #1a202c;
+}
+
+.shadow-xl {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.h-screen {
+  height: 100vh;
+}
+
+
+
+.border-r {
+  border-right-width: 1px;
+}
+
+.border-gray-300 {
+  border-color: #d1d5db;
+}
+
+
+.bg-gray-100 {
+  background-color: #f7fafc;
+}
+
+.text-gray-900 {
+  color: #1a202c;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.py-10 {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.sm\:px-6 {
+  @media (min-width: 640px) {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+.lg\:px-8 {
+  @media (min-width: 1024px) {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+.lg\:py-6 {
+  @media (min-width: 1024px) {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+}
+
+.lg\:pl-80 {
+  @media (min-width: 1024px) {
+    padding-left: 20rem;
+  }
+}

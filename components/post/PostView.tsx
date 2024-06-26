@@ -1,6 +1,4 @@
 "use client";
-
-
 import UserAvatar from "@/components/UserAvatar";
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -27,7 +25,7 @@ function PostView({ id, post,userId }: { id: string; post:any ; userId: string})
    const  image = post.imageurl! 
   const inputRef = useRef<HTMLInputElement>(null);
   const username = post.user.username;
-  const href = `/${username}`;
+  const href = `/profile/${username}`;
   const mount = useMount();
   if (!mount) return null;
   
@@ -93,14 +91,14 @@ function PostView({ id, post,userId }: { id: string; post:any ; userId: string})
           />
         </div>
 
-       {image ? <div className="relative h-96 w-full max-w-3xl overflow-hidden md:h-[500px] lg:h-[700px] xl:h-[800px]">
+       {image ? <div className="relative h-96 w-full max-w-3xl md:h-[500px] lg:h-[700px] xl:h-[800px]">
 
           <Image
             src={image}
             fill
             objectFit="cover"
             alt="Post Image"
-            className="object-cover md:rounded-l-md"
+            className="object-cover"
           />
         </div>:""}
        <div  className="w-full border-b p-2.5 md:hidden">

@@ -1,8 +1,5 @@
-
-
 generator client {
   provider = "prisma-client-js"
-
 }
 
 datasource db {
@@ -11,33 +8,36 @@ datasource db {
 }
 
 model User {
-  id          String  @id @default(uuid())
-  userid      String  @unique
-  name        String?
-  username    String? @unique
-  imageUrl    String?
-  email       String?
-  bio         String?
-  posts         Post[]
-  saved         SavedPost[]
-  likes         Like[]
-  comments      Comment[]
-  followedBy    Follows[]   @relation("following")
-  following     Follows[]   @relation("follower")
-  stories       Story[]
-
-    @@map(name: "users")
+  id             String  @id @default(uuid())
+  userid         String  @unique
+  name           String?
+  username       String? @unique
+  imageUrl       String?
+  email          String? @unique
+  bio            String?
+  posts          Post[]
+  saved          SavedPost[]
+  likes          Like[]
+  comments       Comment[]
+  followedBy     Follows[] @relation("following")
+  following      Follows[] @relation("follower")
+  stories        Story[]
+  messages       Message[]
+  conversations  ConversationUser[]
+  seenMessages   SeenMessage[]
+  
+  @@map(name: "users")
 }
 
 model Follows {
-    follower    User   @relation("follower", fields: [followerId], references: [userid])
-    followerId  String
-    following   User   @relation("following", fields: [followingId], references: [id])
-    followingId String
-    role        Role
-    @@id([followerId, followingId])
-    @@index([followerId])
-    @@index([followingId])
+  follower    User   @relation("follower", fields: [followerId], references: [id])
+  followerId  String
+  following   User   @relation("following", fields: [followingId], references: [userid])
+  followingId String
+  role        Role
+  @@id([followerId, followingId])
+  @@index([followerId])
+  @@index([followingId])
 }
 
 enum Role {
@@ -45,20 +45,18 @@ enum Role {
   CLOSE_FRIEND
 }
 
-
 model Post {
-  id            String    @id @default(uuid())
-  content       String?
-  imageurl      String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt 
-  user         User        @relation(fields: [userId], references: [userid], onDelete: Cascade)
-  userId       String      @map("user_id")
-  likes        Like[]
+  id          String    @id @default(uuid())
+  content     String?
+  imageurl    String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        User      @relation(fields: [userId], references: [userid], onDelete: Cascade)
+  userId      String    @map("user_id")
+  likes       Like[]
   savedBy     SavedPost[]
   comments    Comment[]
   @@index([userId])
- 
 }
 
 model Like {
@@ -66,54 +64,99 @@ model Like {
   postId    String?
   userId    String
   commentId String?
-  User      User     @relation(fields: [userId], references: [userid], onDelete:Cascade)
-  Post      Post?    @relation(fields: [postId], references: [id], onDelete:Cascade)
-  Comment   Comment? @relation(fields: [commentId], references: [id], onDelete:Cascade)
+  User      User     @relation(fields: [userId], references: [userid], onDelete: Cascade)
+  Post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  Comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
 
   @@unique([postId, userId])
   @@unique([commentId, userId])
 }
 
-
 model Comment {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    body      String
-    post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-    postId    String
-    userId    String   @map("user_id")
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  body      String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    String
+  userId    String   @map("user_id")
 
-    user User @relation(fields: [userId], references: [userid], onDelete: Cascade)
-    parentId  String?  @map("parent_id")
-    parent    Comment? @relation("Replies", fields: [parentId], references: [id])
-    replies   Comment[] @relation("Replies")
-    likes     Like[]
+  user User @relation(fields: [userId], references: [userid], onDelete: Cascade)
+  parentId  String?  @map("parent_id")
+  parent    Comment? @relation("Replies", fields: [parentId], references: [id])
+  replies   Comment[] @relation("Replies")
+  likes     Like[]
 
-    @@index([postId])
-    @@index([userId])
+  @@index([postId])
+  @@index([userId])
 }
+
 model SavedPost {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-    postId    String
-    userId    String   @map("user_id")
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    String
+  userId    String   @map("user_id")
 
-    user User @relation(fields: [userId], references: [userid], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [userid], onDelete: Cascade)
 
-    @@unique([postId, userId])
-    @@index([userId])
+  @@unique([postId, userId])
+  @@index([userId])
 }
+
 model Story {
-  id          String   @id @default(uuid())
-  createdAt   DateTime @default(now())
-  expiresAt   DateTime  
-  imageUrl    String?  
-  videoUrl    String?  
-  user        User     @relation(fields: [userId], references: [userid])
-  userId      String   @map("user_id")
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  url       String
+  user      User     @relation(fields: [userId], references: [userid])
+  userId    String   @map("user_id")
+  type      String
+  duration  Int
 
   @@index([userId])
+}
+
+model Conversation {
+  id            String            @id @default(uuid())
+  createdAt     DateTime          @default(now())
+  lastMessageAt DateTime          @default(now())
+ 
+  messages      Message[]
+  users         ConversationUser[]
+}
+
+model Message {
+  id             String        @id @default(uuid())
+  content           String
+  image          String?
+  createdAt      DateTime      @default(now())
+  conversationId String
+  conversation   Conversation  @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  senderId       String
+  sender         User          @relation(fields: [senderId], references: [userid], onDelete: Cascade)
+  seenMessages   SeenMessage[]
+  @@index([conversationId])
+  @@index([senderId])
+  @@index([createdAt])
+}
+
+model ConversationUser {
+  conversationId String 
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  userId         String
+  user           User         @relation(fields: [userId], references: [userid])
+  @@id([conversationId, userId])
+    @@unique([conversationId, userId], name: "unique_conversation_user")
+  
+}
+
+model SeenMessage {
+  id        String   @id @default(cuid())
+  messageId String
+  message   Message @relation(fields: [messageId], references: [id])
+  userId    String
+  user      User    @relation(fields: [userId], references: [userid])
+  
+  @@unique([messageId, userId])
 }

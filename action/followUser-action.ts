@@ -8,31 +8,24 @@ import { revalidatePath } from "next/cache";
 
 // the below code fragment can be found in:
 
-export const  followUser = action(FollowUser, async ({ id}) => {
-  const {userId} =  auth();
-  if (!userId) 
+export const  followUser = action(FollowUser, async ({ userId ,role}) => {
+  const user = await  fetchUser();
+  if (!user) 
     {
       throw new Error("Unauthorized");
     }
 
     
-    const User = await db.user.findUnique({
-      where: {
-        id,
-      },
-    });
-  
-    if (!User) {
-      throw new Error("User not found");
-    }
+   
+    
   
     const follows = await db.follows.findUnique({
       where: {
         followerId_followingId: {
            
-            followerId: userId,
+            followerId: user.id,
             
-            followingId: id,
+            followingId: userId,
         },
       },
     });
@@ -43,9 +36,9 @@ export const  followUser = action(FollowUser, async ({ id}) => {
           where: {
             followerId_followingId: {
               
-                followerId: userId,
+                followerId:  user.id,
               
-                followingId: id,
+                followingId: userId,
             },
           },
         });
@@ -56,12 +49,16 @@ export const  followUser = action(FollowUser, async ({ id}) => {
       }
     }
   
+    if( user.userid=== userId){
+      return { message: "You can not follow yourself." };
+     
+    }
     try {
-      await db.follows.create({
+      const createFollow =await db.follows.create({
         data: {
-            followerId:userId,
-          
-            followingId: id,
+            followerId: user.id,
+            role:role,
+            followingId: userId,
           
         },
       });
@@ -69,6 +66,6 @@ export const  followUser = action(FollowUser, async ({ id}) => {
       return { message: "Followed User." };
     } catch (error) {
       
-      return console.log(userId)
+      return console.log( user.id)
     }
   })

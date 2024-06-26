@@ -19,23 +19,24 @@ function FollowButton({
   const { execute, result } = useAction(followUser, {
     onSuccess: () => {
       console.log("success");
+      console.log(result)
     },
     onError: (error) => {
       console.log(error, "error");
     },
   });
-  console.log(profileId)
-  console.log(result);
+
+ 
   return (
     <form onSubmit={(e) => {
       e.preventDefault();
       const formData = new FormData(e.currentTarget);
 
-      const id = formData.get("id") as string;
-      execute({ id }); 
+      const userId = formData.get("userId") as string;
+      execute({ userId ,role:"FRIEND"}); 
     }}
     className={className}>
-      <input type="hidden" value={profileId} name="id" />
+      <input type="hidden" value={profileId} name="userId" />
       <SubmitButton
         className={buttonVariants({
           variant: isFollowing ? "secondary" : "default",

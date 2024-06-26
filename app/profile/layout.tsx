@@ -1,7 +1,6 @@
 import SideBar from "@/components/nav/sidebar";
 import { fetchProfile, initializer } from "@/lib/user";
-import { Metadata, ResolvingMetadata } from "next";
-import { notFound } from "next/navigation";
+
 
 type Props = {
    

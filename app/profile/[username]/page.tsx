@@ -2,7 +2,6 @@
 import Profile from "@/components/profile/profile";
 import {  fetchProfile, initializer } from "@/lib/user";
 import { error } from "console";
-import { notFound } from "next/navigation";
 
 type Props = {
   params:{

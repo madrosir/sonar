@@ -6,6 +6,8 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
+import SubmitButton from "../SubmitButton";
+import { DeletePost } from "@/lib/Schema";
 
 type Props = {
   post: PostWithExtras;

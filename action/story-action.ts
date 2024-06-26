@@ -5,14 +5,16 @@ import { db } from "@/lib/db";
 import { action } from "@/lib/safe-action";
 import { auth } from "@clerk/nextjs";
 import { revalidatePath } from "next/cache";
-const { userId } = auth();
-if (!userId)  {
-  throw new Error("Unauthorized");
-}
-export const createStory = action(CreateStory, async ({ imageUrl, videoUrl }) => {
+
+
+
+export const createStory = action(CreateStory, async ({ url,durations,type  }) => {
   try {
-   
-    await db.story.create({ data: { imageUrl, videoUrl,} });
+    const { userId } = auth();
+    if (!userId)  {
+      throw new Error("Unauthorized");
+    }
+    await db.story.create({ data: { url,userId:userId ,duration:5000 ,type:"image"} });
 
     revalidatePath("/");
     return { success: "Post created successfully" };
@@ -22,3 +24,24 @@ export const createStory = action(CreateStory, async ({ imageUrl, videoUrl }) =>
     return { failure: "An error occurred while creating the post" };
   }
 });
+
+export async function deleteOldPosts() {
+  const now = new Date();
+  const twentyFourHoursAgo = new Date(now.getTime() - 1000 * 60 * 60 * 24);
+
+  try {
+    const result = await db.story.deleteMany({
+      where: {
+        createdAt: {
+          lt: twentyFourHoursAgo,
+        },
+      },
+    });
+    
+    console.log(`Deleted ${result.count} posts`);
+  } catch (error) {
+    console.error('Error deleting old posts:', error);
+  }
+}
+
+// Schedule the task to run every hour
