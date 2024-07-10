@@ -2,7 +2,6 @@
 import { CommentWithExtras, PostWithExtras } from "@/lib/definitions";
 import ReplayToComment from "./replayToComment"
 
-import Comment from "./Comment";
 import { useRef } from "react";
 import CommentOptions from "./CommentOptions";
 import Timestamp from "../Timestamp";

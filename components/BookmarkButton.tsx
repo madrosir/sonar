@@ -19,7 +19,7 @@ function BookmarkButton({ post, userId }: Props) {
   const [optimisticBookmarks, addOptimisticBookmark] = useOptimistic<
     SavedPost[]
   >(
-    post.savedBy,
+    post.savedBy || [],
     // @ts-ignore
     (state: SavedPost[], newBookmark: SavedPost) =>
       state.find(predicate)

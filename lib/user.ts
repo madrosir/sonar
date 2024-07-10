@@ -1,8 +1,9 @@
 "use server";
-import { unstable_noStore as noStore } from "next/cache";
+import { unstable_noStore as noStore, revalidatePath } from "next/cache";
 
 import {  auth, currentUser } from "@clerk/nextjs";
 import { db } from "./db";
+import UserProfile from "./definitions";
 
 export const initializer = async () => {
   const user = await currentUser();
@@ -39,6 +40,7 @@ export const fetchUsers = async () => {
     where: {
       NOT:{
         userid: userId,
+      
       }
           
      
@@ -51,18 +53,28 @@ export const fetchUsers = async () => {
   }
 };
 
-export async function fetchProfile(username: string) {
+export async function fetchProfile(username: string) : Promise<UserProfile | null>{
   noStore();
 
   try {
     const data = await db.user.findUnique({
       where: {
-        username:username,
-        
+        username: username,
       },
-      
       include: {
         posts: {
+          include: {
+            comments: {
+              include: {
+                user: true,
+                replies: true,
+                likes: true,
+              },
+            },
+            likes: true,
+            savedBy: true,
+            user: true,
+          },
           orderBy: {
             createdAt: "desc",
           },
@@ -94,30 +106,41 @@ export async function fetchProfile(username: string) {
         },
       },
     });
-    return data;
+    return data as unknown as UserProfile;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch profile");
   }
 }
 
-export async function fetchUserProfile() {
-  const  user = await currentUser()
+// Adjust the path according to your setup
+export async function fetchUserProfile(): Promise<UserProfile | null> {
+  const user = await currentUser();
   if (!user) {
     return null;
   }
-  const username = user.username!
+  const username = user.username!;
   noStore();
 
   try {
     const data = await db.user.findUnique({
       where: {
-        username:username,
-        
+        username: username,
       },
-      
       include: {
         posts: {
+          include: {
+            comments: {
+              include: {
+                user: true,
+                replies: true,
+                likes: true,
+              },
+            },
+            likes: true,
+            savedBy: true,
+            user: true,
+          },
           orderBy: {
             createdAt: "desc",
           },
@@ -149,12 +172,14 @@ export async function fetchUserProfile() {
         },
       },
     });
-    return data;
+    return data as unknown  as UserProfile;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch profile");
   }
 }
+
+
 export const fetchUserReceiver = async (userId:string) => {
 
    const  user= await db.user.findUnique ({
@@ -186,3 +211,27 @@ export const fetchUser = async () => {
     return null;
   }
 };
+
+
+export async function fetchFollowers() {
+  const {userId} =  auth()
+  if(!userId){
+    revalidatePath("/sign-in");
+    return null;
+  }
+  const followingUsers = await db.follows.findMany({
+    where: {
+     role:"FRIEND"
+    },
+    include: {
+      following: {
+        select: {
+          stories: true,
+         
+        }
+      }
+    }
+  });
+  return followingUsers
+ 
+}

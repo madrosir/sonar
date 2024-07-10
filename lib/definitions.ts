@@ -1,14 +1,9 @@
-import { Header } from '@/components/chat/header';
 import type {
-  $Enums,
     Comment,
     Follows,
     Like,
-    Message,
     Post,
-    Role,
     SavedPost,
-    Story,
     User,
   } from "@prisma/client";
   
@@ -31,7 +26,7 @@ import type {
   export type FollowingWithExtras = Follows & { following: UserWithFollows };
   
   export type UserWithExtras = User & {
-    posts: Post[];
+    posts: Post[]&{comment: Comment[] ,like:Like[], savedBy:SavedPost[]};
     saved: SavedPost[];
     followedBy: FollowerWithExtras[];
     following: FollowingWithExtras[];
@@ -282,6 +277,258 @@ export type typeHeader= {
     seenMessages: {
       messageId: string;
       userId: string;
+    }[];
+  }[];
+};
+type UserProfile = {
+  id: string;
+  userid: string;
+  name?: string;
+  username?: string;
+  imageUrl?: string;
+  email?: string;
+  bio?: string;
+  posts: {
+    id: string;
+    content?: string;
+    imageurl?: string;
+    createdAt: Date;
+    updatedAt: Date;
+    userId: string;
+    user: {
+      id: string;
+      userid: string;
+      name?: string;
+      username?: string;
+      imageUrl?: string;
+      email?: string;
+      bio?: string;
+    };
+    likes: {
+      id: string;
+      postId?: string;
+      userId: string;
+      commentId?: string;
+    }[];
+    savedBy: {
+      id: string;
+      createdAt: Date;
+      updatedAt: Date;
+      postId: string;
+      userId: string;
+    }[];
+    comments: {
+      id: string;
+      createdAt: Date;
+      updatedAt: Date;
+      body: string;
+      postId: string;
+      userId: string;
+      parentId?: string;
+      user: {
+        id: string;
+        userid: string;
+        name?: string;
+        username?: string;
+        imageUrl?: string;
+        email?: string;
+        bio?: string;
+      };
+      replies?: {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        body: string;
+        postId: string;
+        userId: string;
+        parentId?: string;
+        likes: {
+          id: string;
+          postId?: string;
+          userId: string;
+          commentId?: string;
+        }[];
+      }[];
+      likes: {
+        id: string;
+        postId?: string;
+        userId: string;
+        commentId?: string;
+      }[];
+    }[];
+  }[];
+  saved: {
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    postId: string;
+    userId: string;
+  }[];
+  followedBy: {
+    followerId: string;
+    followingId: string;
+    role: string;
+    follower: {
+      id: string;
+      userid: string;
+      username?: string;
+      imageUrl?: string;
+      following: {
+        followerId: string;
+        followingId: string;
+      }[];
+      followedBy: {
+        followerId: string;
+        followingId: string;
+      }[];
+    };
+  }[];
+  following: {
+    followerId: string;
+    followingId: string;
+    role: string;
+    following: {
+      id: string;
+      userid: string;
+      username?: string;
+      imageUrl?: string;
+      following: {
+        followerId: string;
+        followingId: string;
+      }[];
+      followedBy: {
+        followerId: string;
+        followingId: string;
+      }[];
+    };
+  }[];
+};
+
+export default UserProfile;
+
+export type PostType = {
+  id: string;
+  content: string | null;
+  imageurl: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  userId: string;
+  user: {
+    id: string;
+    userid: string;
+    name: string | null;
+    username: string | null;
+    imageUrl: string | null;
+    email: string | null;
+    bio: string | null;
+  };
+  likes: {
+    id: string;
+    postId: string | null;
+    userId: string;
+    commentId: string | null;
+    User: {
+      id: string;
+      userid: string;
+      name: string | null;
+      username: string | null;
+      imageUrl: string | null;
+      email: string | null;
+      bio: string | null;
+    };
+    Post: {
+      id: string;
+      content: string | null;
+      imageurl: string | null;
+      createdAt: Date;
+      updatedAt: Date;
+      userId: string;
+      user: {
+        id: string;
+        userid: string;
+        name: string | null;
+        username: string | null;
+        imageUrl: string | null;
+        email: string | null;
+        bio: string | null;
+      };
+      likes: any[];
+      savedBy: any[];
+      comments: any[];
+    } | null;
+    Comment: {
+      id: string;
+      createdAt: Date;
+      updatedAt: Date;
+      body: string;
+      postId: string;
+      userId: string;
+      user: {
+        id: string;
+        userid: string;
+        name: string | null;
+        username: string | null;
+        imageUrl: string | null;
+        email: string | null;
+        bio: string | null;
+      };
+      parentId: string | null;
+      parent: any | null;
+      replies: any[];
+      likes: any[];
+    } | null;
+  }[];
+  savedBy: {
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    postId: string;
+    userId: string;
+    user: {
+      id: string;
+      userid: string;
+      name: string | null;
+      username: string | null;
+      imageUrl: string | null;
+      email: string | null;
+      bio: string | null;
+    };
+  }[];
+  comments: {
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    body: string;
+    postId: string;
+    userId: string;
+    user: {
+      id: string;
+      userid: string;
+      name: string | null;
+      username: string | null;
+      imageUrl: string | null;
+      email: string | null;
+      bio: string | null;
+    };
+    parentId: string | null;
+    parent: any | null;
+    replies: any[];
+    likes: {
+      id: string;
+      postId: string | null;
+      userId: string;
+      commentId: string | null;
+      User: {
+        id: string;
+        userid: string;
+        name: string | null;
+        username: string | null;
+        imageUrl: string | null;
+        email: string | null;
+        bio: string | null;
+      };
+      Post: any | null;
+      Comment: any | null;
     }[];
   }[];
 };

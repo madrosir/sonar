@@ -13,7 +13,7 @@ export default async function Setting() {
       
      <EditProfile validNotes={data} />
    
-      <div className="rounded-l-5xl flex w-[900px] bg-[#E4E9F2]">
+      <div className="rounded-l-5xl flex bg-[#E4E9F2]">
       <Toaster />
       </div>
     </main>

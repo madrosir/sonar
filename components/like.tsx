@@ -1,6 +1,5 @@
 "use client";
 
-import { PostWithExtras } from "@/lib/definitions";
 import { cn } from "@/lib/utils";
 import { Like } from "@prisma/client";
 import { Heart } from "lucide-react";
@@ -12,7 +11,7 @@ function LikeButton({
   post,
   userId,
 }: {
-  post: PostWithExtras;
+  post: any;
   userId?: string;
 }) {
   const predicate = (like: Like) =>
@@ -20,24 +19,25 @@ function LikeButton({
   let [isPending, startTransition] = useTransition();
 
   const [optimisticLikes, addOptimisticLike] = useOptimistic<Like[]>(
-    post.likes,
+    post.likes || [],
     // @ts-ignore
     (state: Like[], newLike: Like) =>
       state.some(predicate)
         ? state.filter((like) => like.userId !== userId)
         : [...state, newLike]
   );
-  console.log(post.likes , "ds")
+
   return (
     <div className="flex flex-col">
       <form
         action={async (formData: FormData) => {
           const postId = formData.get("postId");
-          
+
           startTransition(() => {
-          addOptimisticLike({ postId, userId });
-          })
-          await likePost({postId: post.id});
+            addOptimisticLike({ postId, userId });
+          });
+
+          await likePost({ postId: post.id });
         }}
       >
         <input type="hidden" name="postId" value={post.id} />

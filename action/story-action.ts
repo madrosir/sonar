@@ -44,4 +44,21 @@ export async function deleteOldPosts() {
   }
 }
 
-// Schedule the task to run every hour
+export async function FetchStory() {
+  const { userId } = auth();
+
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+
+  try {
+    const stories = await db.story.findMany({
+      where: { userId: userId }
+    });
+
+    return stories;
+  } catch (error) {
+    console.error("Error fetching stories:", error);
+    throw new Error("An error occurred while fetching the stories");
+  }
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useFormStatus } from "react-dom";
-import { KeyboardEventHandler, forwardRef } from "react";
+import { forwardRef } from "react";
 
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";

@@ -8,7 +8,6 @@ import {
   } from "@/components/ui/dialog"
 import { UploadDropzone } from "@/utils/uploadthing";
 import { useAction } from "next-safe-action/hooks";
-import Image from "next/image";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
@@ -33,24 +32,27 @@ const CreateStory = ({user}:{ user:any}) => {
     setAddImage(true);
   }
     return ( <Dialog>
-        <DialogTrigger>
-          <div>
-          <div className="rounded-full bg-gradient-to-tr from-yellow-500 to-red-600 p-[2px]">
-          <div className="rounded-full bg-white p-1">
-            <Image
-           src={user.imageUrl!}
-            alt="user image"
-            height="55"
-            width="55"
+       
+        <DialogTrigger asChild>
+        <button  className="flex h-12 w-full items-center space-x-2 rounded-md p-2 hover:bg-gray-800">
           
-            className="rounded-full"
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="2"
+            stroke="currentColor"
+            className="ml-1 flex h-6 w-6 items-start text-gray-400"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 4.5v15m7.5-7.5h-15"
             />
-            
-            </div>
-            
-            </div>
-            <p className="w-16 truncate text-center text-xs">Your Story</p>
-            </div>
+          </svg>
+          <span className="text-start text-sm font-medium text-gray-400">Create Story</span>
+       
+        </button>
         </DialogTrigger>
         <DialogContent>
         <form onSubmit={(e) => {e.preventDefault()
@@ -64,7 +66,8 @@ const CreateStory = ({user}:{ user:any}) => {
          
         })
         
-      }}>
+      }}
+      >
         <input  type="hidden" name="imageUrl" value={imageUrl}/>
                <UploadDropzone
             
@@ -87,7 +90,7 @@ const CreateStory = ({user}:{ user:any}) => {
               alert(`ERROR! ${error.message}`);
             }}
           />
-          <Button type="submit">daw</Button>
+          <Button type="submit" className="mt-3 w-full" >Create Story</Button>
         </form>
         </DialogContent>
       </Dialog> );

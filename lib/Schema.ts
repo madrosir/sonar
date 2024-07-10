@@ -4,12 +4,12 @@ export const PostSchema = z.object({
   id:z.string(),
   content: z.optional(z.string().min(3).max(100)),
   imageurl:  z.optional(z.string().min(3).max(100)),
-  
+  userId:z.string()
 });
 
 export const CreatePost = PostSchema.omit({ id: true });
 export const UpdatePost = PostSchema;
-export const DeletePost = PostSchema.pick({ id: true });
+export const DeletePost = PostSchema.pick({ id: true , userId:true});
 
 export const updateSchema = z.object({
   

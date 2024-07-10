@@ -12,7 +12,6 @@ type Props = {
 };
 
 export default async function ChatId({ params: { chat } }: Props) {
-  const { userId } = await auth();
   await initializer;
 
   const user = await fetchUsers();

@@ -1,95 +1,8 @@
-
-
 "use server"
 
-import { CreateChat, UpdateSeenMessage, createMessage, seen } from "@/lib/Schema";
 import { db } from "@/lib/db";
-import { pusherServer } from "@/lib/pusher";
-import { action } from "@/lib/safe-action";
 import { auth } from "@clerk/nextjs";
 import { revalidatePath } from 'next/cache';
-
-
-export const CreateMessage = action(createMessage, async ({ content, conversationId, senderId }) => {
-  try {
-    const { userId } = auth();
-    if (!userId) {
-      throw new Error("Unauthorized");
-    }
-
-    // Start a database transaction
-    const result = await db.$transaction(async (prisma) => {
-      // Create the new message
-      const newMessage = await prisma.message.create({
-        data: {
-          content,
-          conversation: {
-            connect: { id: conversationId }
-          },
-          sender: {
-            connect: { id: userId }
-          }
-        },
-        include: {
-          seenMessages: true,
-          sender: true
-        }
-      });
-
-      // Create a seenMessage entry for the sender
-      const senderSeenMessage = await prisma.seenMessage.create({
-        data: {
-          messageId: newMessage.id,
-          userId: userId
-        }
-      });
-
-      // Update the conversation with the new message
-      const updatedConversation = await prisma.conversation.update({
-        where: {
-          id: conversationId
-        },
-        data: {
-          lastMessageAt: new Date(),
-          messages: {
-            connect: {
-              id: newMessage.id
-            }
-          }
-        },
-        include: {
-          users: true,
-          messages: {
-            include: {
-              seenMessages: true
-            }
-          }
-        }
-      });
-
-      return { newMessage, updatedConversation, senderSeenMessage };
-    });
-
-    const { newMessage, updatedConversation, senderSeenMessage } = result;
-
-    await pusherServer.trigger(conversationId, 'newMessage', newMessage);
-
-    const lastMessage = updatedConversation.messages[updatedConversation.messages.length - 1];
-
-    updatedConversation.users.map((user) => {
-      pusherServer.trigger(user.userId!, 'update', {
-        id: conversationId,
-        messages: [lastMessage]
-      });
-    });
-
-    revalidatePath("/");
-    return { message: "Message created and seenMessage entry added successfully." };
-  } catch (error) {
-    console.error(error);
-    return { message: "Database Error: Failed to create message and seenMessage entry." };
-  }
-});
 
 
 
@@ -236,7 +149,6 @@ export const createConversation = async (otherUserId: string) => {
       throw new Error("Unauthorized");
     }
 
-    // Check if a conversation already exists between these users
     const existingConversation = await db.conversation.findFirst({
       where: {
         AND: [
@@ -250,11 +162,9 @@ export const createConversation = async (otherUserId: string) => {
     });
 
     if (existingConversation) {
-      // If conversation exists, return it
       return existingConversation;
     }
 
-    // If no existing conversation, create a new one
     const newConversation = await db.conversation.create({
       data: {
         users: {

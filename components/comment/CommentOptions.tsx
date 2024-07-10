@@ -20,7 +20,6 @@ type Props = {
 
 function CommentOptions({id, comment }: Props) {
 
-const router =  useRouter();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 

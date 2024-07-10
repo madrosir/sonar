@@ -5,7 +5,6 @@ import { action } from '@/lib/safe-action';
 import { auth } from "@clerk/nextjs";
 import { revalidatePath } from "next/cache";
 
-// the below code fragment can be found in:
 
 export const  likePost =action(LikeSchema, async ({ postId}) => {
   const { userId } =  auth();

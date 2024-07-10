@@ -1,6 +1,5 @@
 'use client';
 
-import { HiPaperAirplane } from "react-icons/hi2";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
 import MessageInput from "./MessageInput";

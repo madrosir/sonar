@@ -10,7 +10,11 @@ const nextConfig = {
         {
           protocol: "https",
           hostname: "utfs.io" 
-        }
+        },
+        {
+          protocol: 'https',
+          hostname: 'instagram.fpnq13-1.fna.fbcdn.net',
+        },
       ],
     },
   };

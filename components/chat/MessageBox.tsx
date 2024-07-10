@@ -1,9 +1,5 @@
 'use client';
-
-import Image from "next/image";
-import { useState } from "react";
 import { format } from "date-fns";
-import { useSession } from "next-auth/react";
 import {  MessageType } from "@/lib/definitions";
 import { useUser } from "@clerk/nextjs";
 import Avatar from "../Avatar";

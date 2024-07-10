@@ -6,7 +6,6 @@ import { fetchUser } from "@/lib/user";
 import { auth } from "@clerk/nextjs";
 import { revalidatePath } from "next/cache";
 
-// the below code fragment can be found in:
 
 export const  followUser = action(FollowUser, async ({ userId ,role}) => {
   const user = await  fetchUser();

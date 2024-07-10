@@ -1,6 +1,5 @@
 "use client"
 import { HiChevronLeft } from 'react-icons/hi';
-import { HiEllipsisHorizontal } from 'react-icons/hi2';
 import Link from "next/link";
 import useOtherUser from '@/hook/useOtherUser';
 import Avatar from '../Avatar';
@@ -10,6 +9,8 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { FaEllipsisH } from 'react-icons/fa';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { DeleteChat,  } from './deleteDialog';
 
 interface HeaderProps {
   conversation: FullMessageType;
@@ -57,14 +58,11 @@ const Header = ({ conversation, conversationId }: HeaderProps) => {
           </div>
         </div>
       </div>
-      <div className="flex items-center space-x-2">
-        <button 
-          className="rounded-full p-2 text-gray-600 hover:bg-gray-100" 
-          onClick={onDelete}
-          aria-label="Delete conversation"
-        >
-      <FaEllipsisH />
-        </button>
+      <div className="mr-8 flex items-center space-x-2">
+      <Popover>
+  <PopoverTrigger ><FaEllipsisH/></PopoverTrigger>
+  <PopoverContent  className='w-full'><DeleteChat conversationId={conversationId}/></PopoverContent>
+</Popover>
       </div>
     </div>
   );

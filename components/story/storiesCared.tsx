@@ -10,7 +10,6 @@ import {
 import React, { useEffect, useState} from "react";
 import { StoryWithUser } from "@/lib/definitions";
 import Stories from 'react-insta-stories';
-import { story } from "@/lib/Schema";
 
 export default function CarouselDemo({
   currentUserIndex,
@@ -22,7 +21,7 @@ export default function CarouselDemo({
   const [userIndex, setUserIndex] = useState(currentUserIndex);
 
   useEffect(() => {
-    setUserIndex(currentUserIndex); // Sync with external currentUserIndex
+    setUserIndex(currentUserIndex);
   }, [currentUserIndex]);
 
   const selectedUser = allStories[userIndex];

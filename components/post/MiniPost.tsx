@@ -1,18 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 import { PostWithExtras } from "@/lib/definitions";
 import Timestamp from "../Timestamp";
 import UserAvatar from "../UserAvatar";
+import { useUser } from "@clerk/nextjs";
+import PostOptions from "./PostOptions";
 
 function MiniPost({ post }: { post: PostWithExtras }) {
-  const username = post.user.username;
+  const {user} = useUser()
+  if (!user) return null;
+  const username = user.username 
   const href = `/dashboard/profile/${username}`;
   
- const user = post.user;
+ 
 
-  if (!user) return null;
+  
 
   return (
     <div className="group flex items-start space-x-2.5 p-3 px-3.5">
@@ -28,11 +31,11 @@ function MiniPost({ post }: { post: PostWithExtras }) {
         </div>
         <div className="flex h-5 items-center space-x-2.5">
           <Timestamp createdAt={post.createdAt} />
-          {/* <PostOptions
+          <PostOptions
             post={post}
             userId={user.id}
             className="hidden group-hover:inline"
-          /> */}
+          />
         </div>
       </div>
     </div>

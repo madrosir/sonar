@@ -36,7 +36,7 @@ export async function DELETE(
       return new NextResponse('Invalid ID', { status: 400 });
     }
 
-    // Delete related SeenMessage records
+  
     await db.seenMessage.deleteMany({
       where: {
         message: {
@@ -45,28 +45,25 @@ export async function DELETE(
       }
     });
 
-    // Delete related messages
     await db.message.deleteMany({
       where: {
         conversationId: conversationId
       }
     });
 
-    // Delete related ConversationUser records
     await db.conversationUser.deleteMany({
       where: {
         conversationId: conversationId
       }
     });
 
-    // Now delete the conversation
     const deletedConversation = await db.conversation.delete({
       where: {
         id: conversationId
       }
     });
 
-    // Notify users about the deletion
+   
     existingConversation.users.forEach((user) => {
       if (user.userId) {
         try {

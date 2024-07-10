@@ -15,12 +15,12 @@ export async function POST(
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
-    // Check if the conversation already exists
+ 
     const existingConversation = await db.conversation.findFirst({
       where: {
         AND: [
-          { users: { some: { userId: user.id } } }, // Current user is in the conversation
-          { users: { some: { userId: userId } } }, // Target user is in the conversation
+          { users: { some: { userId: user.id } } },
+          { users: { some: { userId: userId } } }, 
           { users: { every: { userId: { in: [user.id, userId] } } } } 
         ]
       }

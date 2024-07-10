@@ -2,16 +2,19 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useAction } from "next-safe-action/hooks";
-
 import { Textarea } from "../ui/textarea";
 import { MdPictureInPicture } from "react-icons/md";
 import { UploadButton } from "@/utils/uploadthing";
 import { createPost } from "@/action/post-action";
+import { useUser } from "@clerk/nextjs";
+import { toast } from "sonner";
 
 export const CreatePost = ({ userImage }: { userImage: string }) => {
+  const { user } = useUser();
+  const userId = user?.id;
   const [expand, setExpand] = useState(false);
   const [addImage, setAddImage] = useState(false);
-  const [imageUrl, setImageurl] = useState<string | null>(null);
+  const [imageUrl, setImageurl] = useState<string >("");
   const [content, setContent] = useState<string>("");
 
   const { execute, result } = useAction(createPost, {
@@ -27,10 +30,9 @@ export const CreatePost = ({ userImage }: { userImage: string }) => {
 
   const addEvent = (e: any) => {
     e.preventDefault();
-
     setExpand(false);
     setAddImage(false);
-    setImageurl(null);
+    setImageurl("");
     setContent(""); 
   };
 
@@ -38,20 +40,24 @@ export const CreatePost = ({ userImage }: { userImage: string }) => {
     setAddImage(true);
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!imageUrl) {
+      toast.error("Image is required!");
+      return;
+    }
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
+    const content = (formData.get("content") as string) || null;
+    execute({
+      content: content ?? undefined,
+      imageurl: imageUrl ?? undefined,
+      userId: userId,
+    });
+  };
+
   return (
-    <div className={`mx-auto min-h-36 ${expand ? "w-[20rem]" : "w-[27rem]"} rounded-md border border-gray-300 shadow-md shadow-gray-100 transition-all duration-300`}>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const formData = new FormData(e.currentTarget);
-          const content = (formData.get("content") as string) || null;
-          const imageurl = (formData.get("imageurl") as string) || null;
-          execute({
-            content: content ?? undefined,
-            imageurl: imageurl ?? undefined,
-          });
-        }}
-      >
+    <div className={`mx-auto min-h-36 ${expand ? "w-[27rem]" : "w-[27rem]"} rounded-md border border-gray-300 shadow-md shadow-gray-100 transition-all duration-300`}>
+      <form onSubmit={handleSubmit}>
         <div className="relative p-4">
           <Image
             src={userImage}
@@ -74,23 +80,22 @@ export const CreatePost = ({ userImage }: { userImage: string }) => {
               className="mt-14 w-full resize-none border bg-transparent text-base font-medium outline-none transition hover:border-none dark:text-gray-900"
               style={
                 expand
-                  ? { height: "5rem", marginTop: "0.75rem",  }
+                  ? { height: "5rem", marginTop: "0.75rem" }
                   : { height: "1.5rem", marginTop: 0 }
               }
             />
-          
           </div>
           {imageUrl && (
-              <div className="mt-4 flex w-full">
-                <Image
-                  src={imageUrl}
-                  alt="Uploaded"
-                  width={350}
-                  height={100}
-                  className="rounded-md object-cover"
-                />
-              </div>
-            )}
+            <div className="mt-4 flex w-full justify-center">
+              <Image
+                src={imageUrl}
+                alt="Uploaded"
+                width={350}
+                height={100}
+                className="rounded-md object-cover"
+              />
+            </div>
+          )}
           <input type="hidden" name="imageurl" value={imageUrl ?? ""} />
           {expand && (
             <div className="mt-4 flex w-full items-center">
@@ -138,6 +143,7 @@ export const CreatePost = ({ userImage }: { userImage: string }) => {
           )}
         </div>
       </form>
+      
     </div>
   );
 };

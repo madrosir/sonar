@@ -1,13 +1,10 @@
-import { Message } from '@prisma/client';
 
 import { unstable_noStore as noStore, revalidatePath } from "next/cache";
 import { db } from "./db";
 
 import { fetchUser } from './user';
-import { currentUser } from "@clerk/nextjs";
 
 export async function fetchPosts() {
-  // equivalent to doing fetch, cache: no-store
   noStore();
 
   try {

@@ -7,7 +7,7 @@ import LikeButton from "../like";
 import PostView from "./PostView";
 
 type Props = {
-  post: PostWithExtras
+  post: any
   userId?: string;
   className?: string;
 
