@@ -12,14 +12,13 @@ import { Toaster } from "sonner";
 const HomeLayout = async ({ children }: { children: React.ReactNode }) => {
     const users = await fetchUsers()
     const follower = await fetchFollowers()
-    const user = await fetchUser();
 
   
     return (
         <main>     <QueryProvider>
                         <div className="flex bg-[#F7F9FC]">
                 <div className="shadow-4xl fixed left-0 top-0 min-h-screen text-white">
-                    <SideBar user={user!}/>
+                    <SideBar />
                 </div>
                 <div className="ml-[300px] mr-[300px] w-full bg-[#F7F9FC]">
                     {children}
