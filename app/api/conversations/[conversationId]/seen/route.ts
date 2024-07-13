@@ -88,7 +88,7 @@ export async function POST(
       if(!updatedMessage ){
         return new NextResponse('Error', { status: 403 });
       }
-      // Trigger updates to Pusher
+   
       await pusherServer.trigger(currentUser.userId, 'conversation:update', {
         id: conversationId,
         messages: [updatedMessage]
