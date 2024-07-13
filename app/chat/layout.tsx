@@ -15,7 +15,7 @@ const Message = async ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="flex h-screen bg-gray-800">
       <div className="sticky top-0 h-screen w-[350px] bg-gray-900 shadow-xl">
-        <SideBar user={user!}/>
+        <SideBar />
       </div>
       <div className="flex bg-[#f7f7f7]">
         <div className="w-[350px] border-r border-gray-300 bg-white">
