@@ -3,7 +3,7 @@ import { unstable_noStore as noStore, revalidatePath } from "next/cache";
 
 import {  auth, currentUser } from "@clerk/nextjs";
 import { db } from "./db";
-import UserProfile from "./definitions";
+import { UserProfile } from "./definitions";
 
 export const initializer = async () => {
   const user = await currentUser();
@@ -106,14 +106,13 @@ export async function fetchProfile(username: string) : Promise<UserProfile | nul
         },
       },
     });
-    return data as unknown as UserProfile;
+    return data as UserProfile | null ;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch profile");
   }
 }
 
-// Adjust the path according to your setup
 export async function fetchUserProfile(): Promise<UserProfile | null> {
   const user = await currentUser();
   if (!user) {
@@ -172,7 +171,7 @@ export async function fetchUserProfile(): Promise<UserProfile | null> {
         },
       },
     });
-    return data as unknown  as UserProfile;
+    return data as  UserProfile | null;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch profile");

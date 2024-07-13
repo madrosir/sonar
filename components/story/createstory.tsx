@@ -28,9 +28,7 @@ const CreateStory = ({user}:{ user:any}) => {
   console.log(result);
  
  
-  const handleImage = () => {
-    setAddImage(true);
-  }
+
     return ( <Dialog>
        
         <DialogTrigger asChild>

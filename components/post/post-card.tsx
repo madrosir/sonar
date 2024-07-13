@@ -16,15 +16,18 @@ import { EditPost } from "./Edit-post";
 
 function Post({ post, userId }: { post: any; userId: string }) {
  
+ 
 
   const image = post.imageurl!;
   const username = post.user.username;
-
+ const href = `/profile/`
   return (
     <div className="mb-10 flex flex-col justify-center space-y-2.5 px-4 lg:mx-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
+          <Link href={href}>
           <UserAvatar user={post.user} />
+          </Link>
           <div className="text-sm">
             <p className="space-x-1">
               <span className="font-semibold">{username}</span>

@@ -1,8 +1,7 @@
 import { cn } from "@/lib/utils";
 import LikeButton from "../like";
 import PostView from "../post/PostView";
-import ShareButton from "../ShareButton";
-import BookmarkButton from "../BookmarkButton";
+
 
 type Props = {
     post: any

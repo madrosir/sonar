@@ -2,7 +2,6 @@
 import { CommentWithExtras, PostWithExtras } from "@/lib/definitions";
 import ReplayToComment from "./replayToComment"
 
-import { useRef } from "react";
 import CommentOptions from "./CommentOptions";
 import Timestamp from "../Timestamp";
 import Link from "next/link";
@@ -24,17 +23,16 @@ function CommentReply({
   const href = `/${username}`;
   const hasReplies = (comment:CommentWithExtras) =>  comment.parentId !== null && id === comment.parentId
 
-  const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="border border-green-600">
+    <div >
        
         
                 {post.comments.filter(hasReplies).map((comment:any) => {
                   return (
                     <div key={comment.id}>
                     <div className="group flex items-start space-x-2.5 p-3 px-3.5">
-                      <Link href={href}>
+                      <Link href={href} >
                         <UserAvatar user={comment.user} />
                       </Link>
                       <div className="space-y-1.5">
@@ -42,7 +40,7 @@ function CommentReply({
                           <Link href={href} className="font-semibold">
                             {username}
                           </Link>
-                          <p className="border border-red-600 font-medium">{comment.body}</p>
+                          <p className="font-medium">{comment.body}</p>
                         </div>
                         <div className="flex h-5 items-center space-x-2.5">
                           <Timestamp createdAt={comment.createdAt} />
@@ -50,10 +48,11 @@ function CommentReply({
                          
                           </div>
                           
-                          
+                         
                           {comment.userId === userId && (
                             <CommentOptions comment={comment} id={comment.id} />
                           )}
+                          
                         </div>
                         
                       </div>
@@ -64,8 +63,8 @@ function CommentReply({
                   );
                 })}
           
-         
-        <ReplayToComment parentId={comment.id}  postId={comment.postId}/>
+          <div className="ml-10">
+        <ReplayToComment parentId={comment.id}  postId={comment.postId}/></div>
     </div>
   )
 }

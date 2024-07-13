@@ -21,9 +21,8 @@ export default async function Home({params:{username} }: Props ) {
      
        <Profile profile={profile}/>
       
-      <div className="rounded-l-5xl flex w-[400px] bg-[#E4E9F2]">
    
-      </div>
+    
     </main>
   );
 }

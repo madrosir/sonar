@@ -17,7 +17,7 @@ type Props = {
   post:any;
 };
 
-function Comment({ comment, inputRef , userId ,post}: Props) {
+function Comment({ comment,  userId ,post}: Props) {
   
  
   const username = comment.user.username;
@@ -41,7 +41,7 @@ const handleReply =()=>{
             {username}
           </Link>
         
-          <p className="border border-red-600 font-medium">{comment.body}</p>
+          <p className="font-medium">{comment.body}</p>
           
         </div>
         <div className="flex h-7 items-start space-x-3.5">
@@ -72,7 +72,7 @@ const handleReply =()=>{
       
     </div>
     
-   {expand ? <div className="ml-16 border border-red-900">
+   {expand ? <div className="ml-16">
           <CommentReply comment={comment} userId={userId}  post={post} id={comment.id}/>
           </div> : null}
           

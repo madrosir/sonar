@@ -31,7 +31,7 @@ export function DeletePost({postId}:prop
       const onDelete = () => {
         execute({
             id:postId,
-            userId:userId
+            userId:userId!
         })
     }
   return (

@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
 import { Button } from "../ui/button";
-import UserProfile from "@/lib/definitions";
 import Image from "next/image";
 import LikeButton from "../like";
 import PostView from "../post/PostView";
 import { cn } from "@/lib/utils";
+import { UserProfile } from "@/lib/definitions";
 
 type Props = {
   profile: UserProfile;

@@ -1,6 +1,7 @@
 "use server"
 
 import { db } from "@/lib/db";
+import { FullMessageType } from "@/lib/definitions";
 import { auth } from "@clerk/nextjs";
 import { revalidatePath } from 'next/cache';
 
@@ -30,8 +31,8 @@ export const  fetchUsers= async (
 };
 
 
-export const GetChat = async () => {
-  const currentUser =  auth();
+export const GetChat = async (): Promise<FullMessageType[] | null> => {
+  const currentUser = auth();
 
   if (!currentUser.userId) {
     return [];
@@ -44,7 +45,7 @@ export const GetChat = async () => {
       },
       where: {
         users: {
-          some:{userId:currentUser.userId}
+          some: { userId: currentUser.userId }
         }
       },
       include: {
@@ -53,24 +54,27 @@ export const GetChat = async () => {
             user: true,
           },
         },
-        
         messages: {
           include: {
             sender: true,
-            seenMessages: true,
-            
-          }
+            seenMessages: {
+              include: {
+                user: true,
+              },
+            },
+          },
         },
       }
     });
 
-    return conversations;
+   
+
+    return conversations as FullMessageType[] | null;
   } catch (error: any) {
-    return null
+    console.error(error);
+    return null;
   }
 };
-
-
 
 
 export const getConversationById = async (

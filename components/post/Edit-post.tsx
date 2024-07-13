@@ -61,7 +61,7 @@ export function EditPost({ post }: Prop) {
           execute({
             content: content ?? undefined,
             imageurl: imageurl,
-            userId:userId,
+            userId:userId!,
             id:post.id
           });
         }}>

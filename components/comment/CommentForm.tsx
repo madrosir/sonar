@@ -18,7 +18,6 @@ import { CreateComment } from "@/lib/Schema";
 function CommentForm({
   postId,
   className,
-  inputRef,
 }: {
   postId: string;
   className?: string;

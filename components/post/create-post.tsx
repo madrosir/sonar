@@ -51,7 +51,7 @@ export const CreatePost = ({ userImage }: { userImage: string }) => {
     execute({
       content: content ?? undefined,
       imageurl: imageUrl ?? undefined,
-      userId: userId,
+      userId: userId!,
     });
   };
 

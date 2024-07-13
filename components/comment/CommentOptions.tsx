@@ -10,7 +10,6 @@ import { MoreHorizontal } from "lucide-react";
 import { Button } from "../ui/button";
 
 import { CommentDelete } from "@/action/comment-action";
-import { useRouter } from "next/navigation";
 
 
 type Props = {

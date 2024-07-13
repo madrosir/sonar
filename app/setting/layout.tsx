@@ -5,6 +5,7 @@ import SideBar from "@/components/post/nav/sidebar";
 import { QueryProvider } from "@/components/providers/query-provider";
 import {fetchFollowers, fetchUser, fetchUsers } from "@/lib/user";
 import { User } from "@prisma/client";
+import { Link } from "lucide-react";
 import Image from "next/image";
 import { Toaster } from "sonner";
 
@@ -33,11 +34,12 @@ const HomeLayout = async ({ children }: { children: React.ReactNode }) => {
                             (user) => user.followingId === item.userid
                             
                           );
-                        
+                        const href = `/profile/${item.username}`
                         return(
                             <div className="flex items-center justify-between" key={item.id}>
                              <div  className="relative mb-5 mt-3 rounded-md p-4">
                              <div className='relative flex h-10'>
+                                  <Link href={href} className="flex">
                                   <Image 
                                   src={item.imageUrl!}
                                       alt='User Image'
@@ -45,6 +47,7 @@ const HomeLayout = async ({ children }: { children: React.ReactNode }) => {
                                      height={40}
                                        className='rounded-full'
                                              />
+                                              </Link>
                                     <div className="ml-2 flex flex-col justify-center">
                                   <span>{item.username}</span>
                                <p className='mt-1'>{item.name}</p>

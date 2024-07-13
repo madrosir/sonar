@@ -93,7 +93,7 @@ function Comments({
 
             await createComment( valuesCopy);
           })}
-          className="flex items-center space-x-2 border-b border-gray-300 py-1 pb-3 dark:border-neutral-800"
+          className="flex items-center space-x-2 border-b py-1 pb-3 dark:border-neutral-800"
         >
           <FormField
             control={form.control}

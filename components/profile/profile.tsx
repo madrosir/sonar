@@ -2,12 +2,12 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
 import FollowButton from "../followButton";
-import UserProfile from "@/lib/definitions";
 import { notFound, useRouter } from "next/navigation";
 
 import { createConversation } from "@/action/chat-action";
 import { useUser } from "@clerk/nextjs";
 import { ProfilePost } from "./profilePost";
+import { UserProfile } from "@/lib/definitions";
 
 const  Profile =({profile }:{  profile:UserProfile;  }) => {
   const router = useRouter()

@@ -5,7 +5,6 @@ import { PostWithExtras } from "@/lib/definitions";
 import Timestamp from "../Timestamp";
 import UserAvatar from "../UserAvatar";
 import { useUser } from "@clerk/nextjs";
-import PostOptions from "./PostOptions";
 
 function MiniPost({ post }: { post: PostWithExtras }) {
   const {user} = useUser()
@@ -31,11 +30,7 @@ function MiniPost({ post }: { post: PostWithExtras }) {
         </div>
         <div className="flex h-5 items-center space-x-2.5">
           <Timestamp createdAt={post.createdAt} />
-          <PostOptions
-            post={post}
-            userId={user.id}
-            className="hidden group-hover:inline"
-          />
+         
         </div>
       </div>
     </div>
