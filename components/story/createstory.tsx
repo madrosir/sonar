@@ -11,7 +11,7 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
 
-const CreateStory = () => {
+export const CreateStory = () => {
     const [imageUrl, setImageurl] = useState("");
     const { execute, result } = useAction(createStory, {
         onSuccess: () => {
@@ -83,4 +83,4 @@ const CreateStory = () => {
     );
 }
 
-export default CreateStory;
+
