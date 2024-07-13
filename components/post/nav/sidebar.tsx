@@ -80,7 +80,7 @@ function SideNavItem({ route, icon, label }: SidebarLink) {
   );
 }
 
-const SideBar = ({ user }: Props) => {
+const SideBar = () => {
   return (
     <div
       className={`relative flex h-screen w-80 flex-col bg-gray-700 text-white transition-all duration-300 ease-in-out`}
@@ -95,7 +95,7 @@ const SideBar = ({ user }: Props) => {
           </div>
         ))}
         <div>
-          <CreateStory user={user} />
+          <CreateStory  />
         </div>
         {sidebarLinks.slice(3).map((link, index) => (
           <div key={index}>
