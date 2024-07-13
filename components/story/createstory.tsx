@@ -12,9 +12,8 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
 
-const CreateStory = ({user}:{ user:any}) => {
+const CreateStory = () => {
   const [imageUrl, setImageurl] = useState<string>()
-  const [addImage, setAddImage] = useState(false);
   const { execute, result} = useAction(createStory
     , {
       onSuccess: () => {
