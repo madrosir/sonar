@@ -13,7 +13,7 @@ export async function DELETE(
 ) {
   try {
     const { conversationId } = params;
-    const currentUser = await auth();
+    const currentUser =  auth();
 
     if (!currentUser?.userId) {
       console.error("Unauthorized access attempt");
