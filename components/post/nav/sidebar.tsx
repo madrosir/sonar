@@ -7,7 +7,8 @@ import { AiFillHome, AiFillMessage, AiOutlineHome, AiOutlineMessage } from "reac
 import { FaRegUser, FaUser } from "react-icons/fa";
 import { IoSettingsOutline, IoSettingsSharp } from "react-icons/io5";
 import { User } from "@prisma/client";
-import CreateStory from "@/components/story/CreateStory";
+import CreateStory from '../../story/CreateStory';
+
 
 interface SidebarLink {
   icon: {
