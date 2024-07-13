@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { AiFillHome, AiFillMessage, AiOutlineHome, AiOutlineMessage } from "react-icons/ai";
 import { FaRegUser, FaUser } from "react-icons/fa";
 import { IoSettingsOutline, IoSettingsSharp } from "react-icons/io5";
-import { User } from "@prisma/client";
 import { CreateStory } from "@/components/story/CreateStory";
 
 
@@ -19,9 +18,7 @@ interface SidebarLink {
   label: string;
 }
 
-interface Props {
-  user: User;
-}
+
 
 export const sidebarLinks: SidebarLink[] = [
   {

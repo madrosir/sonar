@@ -23,7 +23,7 @@ const HomeLayout = async ({ children }: { children: React.ReactNode }) => {
         <main>     <QueryProvider>
                         <div className="flex bg-[#F7F9FC]">
                 <div className="shadow-4xl sticky left-0 top-0 h-screen text-white">
-                    <SideBar user={user!}/>
+                    <SideBar />
                 </div>
                 <div className="w-full bg-[#F7F9FC]">
                     {children}
