@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { AiFillHome, AiFillMessage, AiOutlineHome, AiOutlineMessage } from "react-icons/ai";
 import { FaRegUser, FaUser } from "react-icons/fa";
 import { IoSettingsOutline, IoSettingsSharp } from "react-icons/io5";
+import { CreateStory } from "@/components/story/CreateStory";
 
 
 interface SidebarLink {
@@ -92,7 +93,7 @@ const SideBar = () => {
           </div>
         ))}
         <div>
-         
+         <CreateStory />
         </div>
         {sidebarLinks.slice(3).map((link, index) => (
           <div key={index}>
