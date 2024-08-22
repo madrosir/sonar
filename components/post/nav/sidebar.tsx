@@ -1,12 +1,12 @@
 "use client";
 
+import { CreateStory } from "@/components/story/CreateStories";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AiFillHome, AiFillMessage, AiOutlineHome, AiOutlineMessage } from "react-icons/ai";
 import { FaRegUser, FaUser } from "react-icons/fa";
 import { IoSettingsOutline, IoSettingsSharp } from "react-icons/io5";
-import { CreateStory } from "@/components/story/CreateStory";
 
 
 interface SidebarLink {
