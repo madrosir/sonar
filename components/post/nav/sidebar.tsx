@@ -87,7 +87,7 @@ const SideBar = () => {
         <div className="text-2xl font-bold">Sonar</div>
       </header>
       <nav className="mx-10 flex-1 space-y-2">
-        {sidebarLinks.slice(0,3).map((link, index) => (
+        {sidebarLinks.map((link, index) => (
           <div key={index}>
             <SideNavItem {...link} />
           </div>
@@ -95,11 +95,7 @@ const SideBar = () => {
         <div>
          <CreateStory />
         </div>
-        {sidebarLinks.slice(3).map((link, index) => (
-          <div key={index}>
-            <SideNavItem {...link} />
-          </div>
-        ))}
+       
       </nav>
       <div className="flex items-center justify-center border-t border-gray-700 p-4">
         <SignedIn>

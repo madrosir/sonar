@@ -16,10 +16,11 @@ const story = await FetchStory()
   );
 
   return (
-    <div className="flex w-[550px] space-x-2 overflow-x-scroll scroll-smooth rounded-lg border-stone-500 bg-white shadow-sm scrollbar-hide">
+    <div className="flex h-[90px] w-[550px] space-x-2 overflow-x-scroll scroll-smooth rounded-lg border-stone-500 bg-white shadow-sm scrollbar-hide">
       <div className="mx-2 my-2">
       </div>
-      <UserStory story={story!} image={user.imageUrl!} username={user.username}/>
+      {story.length === 0  ? 
+      "" : <UserStory story={story!} image={user.imageUrl!} username={user.username}/>}
       {usersWithStories.map(async (user,index) => {
    
         return (
